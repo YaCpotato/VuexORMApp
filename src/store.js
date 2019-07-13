@@ -1,16 +1,18 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import VuexORM from '@vuex-orm/core'
+import Project from './model/Project'
+import Task from './model/Task'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
-  state: {
+const database = new VuexORM.Database()
 
-  },
-  mutations: {
+database.register(Project)
+database.register(Task)
 
-  },
-  actions: {
-
-  }
+const store = new Vuex.Store({
+  plugins: [VuexORM.install(database)]
 })
+
+export default store

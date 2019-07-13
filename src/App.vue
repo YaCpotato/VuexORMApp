@@ -5,8 +5,39 @@
       <router-link to="/about">About</router-link>
     </div>
     <router-view/>
+    <button @click="addProject()">VuexORM!!</button>
   </div>
 </template>
+
+<script>
+import './store'
+import Project from './model/Project'
+//import Task from './model/Task'
+
+export default{
+  created:function(){
+      const project = [
+  {
+    id: 1,
+    name: 'example project',
+    start: '2019/07/13',
+    end: '2019/07/20',
+    tasks: {
+      id: 1,
+      project_id: 1,
+      name: 'MAGURO',
+      start: '2019/07/13',
+      end: '2019/07/15'
+    }
+  }
+]
+
+Project.insert({ data: project })
+console.log(Project.query().with('tasks').get())
+    }
+  }
+
+</script>
 
 <style>
 #app {

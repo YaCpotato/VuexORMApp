@@ -5,7 +5,7 @@
     <div id="box1" class="box">
     <ul>
       <span>To Do</span>
-      <draggable :options="{group:'ITEMS'}">
+      <draggable :options="{group:'ITEMS'}" v-model="ToDos" @change="updateToDo">
         <li v-for="ToDo in ToDos" :key="ToDo.id">{{ ToDo.name }}</li>
       </draggable>
     </ul>
@@ -14,7 +14,7 @@
   <div id="box2" class="box">
     <ul>
       <span>WorkOnProgress</span>
-      <draggable :options="{group:'ITEMS'}">
+      <draggable :options="{group:'ITEMS'}" v-model="WorkOnProgress" @change="updateWoP">
         <li v-for="WoP in WorkOnProgress" :key="WoP.id">{{ WoP.name }}</li>
        </draggable>
     </ul>
@@ -23,7 +23,7 @@
   <div id="box3" class="box">
     <ul>
       <span>Done</span>
-      <draggable :options="{group:'ITEMS'}">
+      <draggable :options="{group:'ITEMS'}" v-model="Dones" @change="updateDone">
         <li v-for="Done in Dones" :key="Done.id">{{ Done.name }}</li>
       </draggable>
     </ul>
@@ -80,6 +80,42 @@ export default{
           'phase': 0,
         }
       })
+    },
+    updateToDo:function(){
+      console.log('update todo')
+      for(let i=0;i<this.ToDos.length;i++){
+        Task.update({
+          data:{
+            id: this.ToDos[i].id,
+            phase:0
+          }
+        })
+      }
+      console.log(Task.all())
+    },
+    updateWoP:function(){
+      console.log('update WoP')
+      for(let i=0;i<this.WorkOnProgress.length;i++){
+        Task.update({
+          data:{
+            id: this.WorkOnProgress[i].id,
+            phase:1
+          }
+        })
+      }
+      console.log(Task.all())
+    },
+    updateDone:function(){
+      console.log('update done')
+      for(let i=0;i<this.Dones.length;i++){
+        Task.update({
+          data:{
+            id: this.Dones[i].id,
+            phase:2
+          }
+        })
+      }
+      console.log(Task.all())
     }
   },
   created:function(){
@@ -115,16 +151,19 @@ export default{
       for(let i=0;i<this.task.length;i++){
         if(this.task[i].phase == 0){
           this.ToDos.push({
+            'id': this.task[i].id,
             'project_id': this.task[i].project_id,
             'name': this.task[i].name
           })
         }else if(this.task[i].phase == 1){
           this.WorkOnProgress.push({
+            'id': this.task[i].id,
             'project_id': this.task[i].project_id,
             'name': this.task[i].name
           })
         }else if(this.task[i].phase == 2){
           this.Dones.push({
+            'id': this.task[i].id,
             'project_id': this.task[i].project_id,
             'name': this.task[i].name
           })

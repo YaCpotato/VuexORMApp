@@ -5,11 +5,10 @@ export default class Task extends Model {
 
   static fields () {
     return {
-      id: this.attr(null),
+      id: this.increment(),
       project_id :this.attr(null),
       name: this.string(''),
-      start: this.string(''),
-      end: this.string('')
+      phase: this.attr(null)
     }
   }
 }

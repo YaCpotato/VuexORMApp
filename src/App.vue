@@ -7,8 +7,6 @@
       <span>To Do</span>
       <draggable :options="{group:'ITEMS'}" v-model="ToDos" @change="updateToDo">
         <li v-for="ToDo in ToDos" :key="ToDo.id">{{ ToDo.name }}</li>
-          <p sort=false>Want</p>
-        <li v-for="ToDo in ToDos" :key="ToDo.id">{{ ToDo.name }}</li>
       </draggable>
     </ul>
   </div>
@@ -18,8 +16,6 @@
       <span>WorkInProgress</span>
       <draggable :options="{group:'ITEMS'}" v-model="WorkInProgress" @change="updateWiP">
         <li v-for="WiP in WorkInProgress" :key="WiP.id">{{ WiP.name }}</li>
-          <p sort=false>Want</p>
-        <li v-for="WiP in WorkInProgress" :key="WiP.id">{{ WiP.name }}</li>
        </draggable>
     </ul>
   </div>
@@ -28,8 +24,6 @@
     <ul>
       <span>Done</span>
       <draggable :options="{group:'ITEMS'}" v-model="Dones" @change="updateDone">
-          <li v-for="Done in Dones" :key="Done.id">{{ Done.name }}</li>
-          <p sort=false>Want</p>
           <li v-for="Done in Dones" :key="Done.id">{{ Done.name }}</li>
       </draggable>
     </ul>

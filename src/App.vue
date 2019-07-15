@@ -7,15 +7,19 @@
       <span>To Do</span>
       <draggable :options="{group:'ITEMS'}" v-model="ToDos" @change="updateToDo">
         <li v-for="ToDo in ToDos" :key="ToDo.id">{{ ToDo.name }}</li>
+          <p sort=false>Want</p>
+        <li v-for="ToDo in ToDos" :key="ToDo.id">{{ ToDo.name }}</li>
       </draggable>
     </ul>
   </div>
 
   <div id="box2" class="box">
     <ul>
-      <span>WorkOnProgress</span>
-      <draggable :options="{group:'ITEMS'}" v-model="WorkOnProgress" @change="updateWoP">
-        <li v-for="WoP in WorkOnProgress" :key="WoP.id">{{ WoP.name }}</li>
+      <span>WorkInProgress</span>
+      <draggable :options="{group:'ITEMS'}" v-model="WorkInProgress" @change="updateWiP">
+        <li v-for="WiP in WorkInProgress" :key="WiP.id">{{ WiP.name }}</li>
+          <p sort=false>Want</p>
+        <li v-for="WiP in WorkInProgress" :key="WiP.id">{{ WiP.name }}</li>
        </draggable>
     </ul>
   </div>
@@ -24,7 +28,9 @@
     <ul>
       <span>Done</span>
       <draggable :options="{group:'ITEMS'}" v-model="Dones" @change="updateDone">
-        <li v-for="Done in Dones" :key="Done.id">{{ Done.name }}</li>
+          <li v-for="Done in Dones" :key="Done.id">{{ Done.name }}</li>
+          <p sort=false>Want</p>
+          <li v-for="Done in Dones" :key="Done.id">{{ Done.name }}</li>
       </draggable>
     </ul>
   </div>
@@ -50,7 +56,7 @@ export default{
   data(){
     return {
       ToDos:[],
-      WorkOnProgress:[],
+      WorkInProgress:[],
       Dones:[],
       project: [{
         'id': null,
@@ -61,7 +67,8 @@ export default{
         'id': null,
         'project_id': null,
         'name': '',
-        'phase': null
+        'phase': null,
+        'want': false
       }],
       assigntask: {
         'id': null,
@@ -93,12 +100,12 @@ export default{
       }
       console.log(Task.all())
     },
-    updateWoP:function(){
-      console.log('update WoP')
-      for(let i=0;i<this.WorkOnProgress.length;i++){
+    updateWiP:function(){
+      console.log('update WiP')
+      for(let i=0;i<this.WorkInProgress.length;i++){
         Task.update({
           data:{
-            id: this.WorkOnProgress[i].id,
+            id: this.WorkInProgress[i].id,
             phase:1
           }
         })
@@ -126,17 +133,20 @@ export default{
         tasks: [{
           project_id: 1,
           name: 'MAGURO',
-          phase: 0
+          phase: 0,
+          want: false,
         },
         {
           project_id: 1,
           name: 'SAME',
-          phase: 1
+          phase: 1,
+          want:true
         },
         {
           project_id: 1,
           name: 'TAI',
-          phase: 2
+          phase: 2,
+          want: false
         }]
       }
       ]
@@ -153,19 +163,22 @@ export default{
           this.ToDos.push({
             'id': this.task[i].id,
             'project_id': this.task[i].project_id,
-            'name': this.task[i].name
+            'name': this.task[i].name,
+            'want': this.task[i].want
           })
         }else if(this.task[i].phase == 1){
-          this.WorkOnProgress.push({
+          this.WorkInProgress.push({
             'id': this.task[i].id,
             'project_id': this.task[i].project_id,
-            'name': this.task[i].name
+            'name': this.task[i].name,
+            'want': this.task[i].want
           })
         }else if(this.task[i].phase == 2){
           this.Dones.push({
             'id': this.task[i].id,
             'project_id': this.task[i].project_id,
-            'name': this.task[i].name
+            'name': this.task[i].name,
+            'want': this.task[i].want
           })
         }
       }

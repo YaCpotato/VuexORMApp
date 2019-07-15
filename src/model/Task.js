@@ -8,7 +8,8 @@ export default class Task extends Model {
       id: this.increment(),
       project_id :this.attr(null),
       name: this.string(''),
-      phase: this.attr(null)
+      phase: this.attr(null),
+      want: this.boolean(false),
     }
   }
 }

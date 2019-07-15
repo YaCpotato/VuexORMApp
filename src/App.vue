@@ -4,27 +4,39 @@
     <h3>{{ project.day }}</h3>
     <div id="box1" class="box">
     <ul>
-      <span>To Do</span>
-      <draggable :options="{group:'ITEMS'}" v-model="ToDos" @change="updateToDo">
+      <span class="tag">To Do</span>
+      <draggable class="dragarea" :options="{group:'ITEMS'}" v-model="ToDos" @change="updateToDo">
         <li v-for="ToDo in ToDos" :key="ToDo.id">{{ ToDo.name }}</li>
+      </draggable>
+      <span class="tag">Want</span>
+      <draggable class="dragarea" :options="{group:'ITEMS'}" v-model="wantToDos" @change="updatewantToDo">
+        <li v-for="wantToDo in wantToDos" :key="wantToDo.id">{{ wantToDo.name }}</li>
       </draggable>
     </ul>
   </div>
 
   <div id="box2" class="box">
     <ul>
-      <span>WorkInProgress</span>
-      <draggable :options="{group:'ITEMS'}" v-model="WorkInProgress" @change="updateWiP">
+      <span class="tag">WorkInProgress</span>
+      <draggable class="dragarea" :options="{group:'ITEMS'}" v-model="WorkInProgress" @change="updateWiP">
         <li v-for="WiP in WorkInProgress" :key="WiP.id">{{ WiP.name }}</li>
        </draggable>
+       <span class="tag">Want</span>
+      <draggable class="dragarea" :options="{group:'ITEMS'}" v-model="wantWorkInProgress" @change="updatewantWiP">
+        <li v-for="wantWiP in wantWorkInProgress" :key="wantWiP.id">{{ wantWiP.name }}</li>
+      </draggable>
     </ul>
   </div>
 
   <div id="box3" class="box">
     <ul>
-      <span>Done</span>
-      <draggable :options="{group:'ITEMS'}" v-model="Dones" @change="updateDone">
+      <span class="tag">Done</span>
+      <draggable class="dragarea" :options="{group:'ITEMS'}" v-model="Dones" @change="updateDone">
           <li v-for="Done in Dones" :key="Done.id">{{ Done.name }}</li>
+      </draggable>
+      <span class="tag">Want</span>
+      <draggable class="dragarea" :options="{group:'ITEMS'}" v-model="wantDones" @change="updatewantDone">
+        <li v-for="wantDone in wantDones" :key="wantDone.id">{{ wantDone.name }}</li>
       </draggable>
     </ul>
   </div>
@@ -52,6 +64,9 @@ export default{
       ToDos:[],
       WorkInProgress:[],
       Dones:[],
+      wantToDos:[],
+      wantWorkInProgress:[],
+      wantDones:[],
       project: [{
         'id': null,
         'name': '',
@@ -117,6 +132,41 @@ export default{
         })
       }
       console.log(Task.all())
+    },
+    updatewantToDo:function(){
+      console.log('update todo')
+      for(let i=0;i<this.wantToDos.length;i++){
+        Task.update({
+          data:{
+            id: this.wantToDos[i].id,
+            phase:0
+          }
+        })
+      }
+    },
+    updatewantWiP:function(){
+      console.log('update WiP')
+      for(let i=0;i<this.wantWorkInProgress.length;i++){
+        Task.update({
+          data:{
+            id: this.wantWorkInProgress[i].id,
+            phase:1
+          }
+        })
+      }
+      console.log(Task.all())
+    },
+    updatewantDone:function(){
+      console.log('update done')
+      for(let i=0;i<this.wantDones.length;i++){
+        Task.update({
+          data:{
+            id: this.wantDones[i].id,
+            phase:2
+          }
+        })
+      }
+      console.log(Task.all())
     }
   },
   created:function(){
@@ -153,22 +203,43 @@ export default{
       this.task = Task.all()
 
       for(let i=0;i<this.task.length;i++){
-        if(this.task[i].phase == 0){
+        if(this.task[i].phase == 0 && !this.task[i].want){
           this.ToDos.push({
             'id': this.task[i].id,
             'project_id': this.task[i].project_id,
             'name': this.task[i].name,
             'want': this.task[i].want
           })
-        }else if(this.task[i].phase == 1){
+        }else if(this.task[i].phase == 0 && this.task[i].want){
+          this.wantToDos.push({
+            'id': this.task[i].id,
+            'project_id': this.task[i].project_id,
+            'name': this.task[i].name,
+            'want': this.task[i].want
+          })
+        }else if(this.task[i].phase == 1 && !this.task[i].want){
           this.WorkInProgress.push({
             'id': this.task[i].id,
             'project_id': this.task[i].project_id,
             'name': this.task[i].name,
             'want': this.task[i].want
           })
-        }else if(this.task[i].phase == 2){
+        }else if(this.task[i].phase == 1 && this.task[i].want){
+          this.wantWorkInProgress.push({
+            'id': this.task[i].id,
+            'project_id': this.task[i].project_id,
+            'name': this.task[i].name,
+            'want': this.task[i].want
+          })
+        }else if(this.task[i].phase == 2 && !this.task[i].want){
           this.Dones.push({
+            'id': this.task[i].id,
+            'project_id': this.task[i].project_id,
+            'name': this.task[i].name,
+            'want': this.task[i].want
+          })
+        }else if(this.task[i].phase == 2 && this.task[i].want){
+          this.wantDones.push({
             'id': this.task[i].id,
             'project_id': this.task[i].project_id,
             'name': this.task[i].name,
@@ -217,6 +288,11 @@ export default{
   background-color: #fdd;
 }
 
+.tag{
+  padding:3px;
+  font-size: 20px;
+}
+
 li {
   cursor:pointer;
   padding: 10px;
@@ -224,4 +300,9 @@ li {
   background-color: #fff;
 }
 
+.dragarea{
+  width:300px;
+  height:300px;
+  border: #2c3e50;
+}
 </style>

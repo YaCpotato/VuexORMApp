@@ -1,6 +1,7 @@
 <template>
 <div id="app">
-    <input type="text" v-model="projectName">
+    <img alt="salmon logo" src="./assets/sushi_salmon.png">
+    <el-input type="text" v-model="projectName"></el-input>
     <div id="nav">
       <router-link to="/App">Let's start project!!</router-link>
     </div>
@@ -37,5 +38,7 @@ import Project from './model/Project'
     }
 </script>
 <style>
-
+.el-input__inner{
+    width:40%;
+}
 </style>

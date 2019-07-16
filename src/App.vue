@@ -2,15 +2,17 @@
   <div id="app">
     <h2>{{ project.name }}</h2>
     <h3>{{ project.day }}</h3>
+    <input type="text" v-model="assigntask.name">
+    <button @click="addTask">タスク追加</button>
     <div id="box1" class="box">
     <ul>
       <span class="tag">To Do</span>
       <draggable class="dragarea" :options="{group:'ITEMS'}" v-model="ToDos" @change="updateToDo">
-        <li v-for="ToDo in ToDos" :key="ToDo.id">{{ ToDo.name }}</li>
+        <li v-for="(ToDo,id) in ToDos" :key="id">{{ ToDo.name }}</li>
       </draggable>
       <span class="tag">Want</span>
       <draggable class="dragarea" :options="{group:'ITEMS'}" v-model="wantToDos" @change="updatewantToDo">
-        <li v-for="wantToDo in wantToDos" :key="wantToDo.id">{{ wantToDo.name }}</li>
+        <li v-for="(wantToDo,id) in wantToDos" :key="id">{{ wantToDo.name }}</li>
       </draggable>
     </ul>
   </div>
@@ -19,11 +21,11 @@
     <ul>
       <span class="tag">WorkInProgress</span>
       <draggable class="dragarea" :options="{group:'ITEMS'}" v-model="WorkInProgress" @change="updateWiP">
-        <li v-for="WiP in WorkInProgress" :key="WiP.id">{{ WiP.name }}</li>
+        <li v-for="(WiP,id) in WorkInProgress" :key="id">{{ WiP.name }}</li>
        </draggable>
        <span class="tag">Want</span>
       <draggable class="dragarea" :options="{group:'ITEMS'}" v-model="wantWorkInProgress" @change="updatewantWiP">
-        <li v-for="wantWiP in wantWorkInProgress" :key="wantWiP.id">{{ wantWiP.name }}</li>
+        <li v-for="(wantWiP,id) in wantWorkInProgress" :key="id">{{ wantWiP.name }}</li>
       </draggable>
     </ul>
   </div>
@@ -32,15 +34,14 @@
     <ul>
       <span class="tag">Done</span>
       <draggable class="dragarea" :options="{group:'ITEMS'}" v-model="Dones" @change="updateDone">
-          <li v-for="Done in Dones" :key="Done.id">{{ Done.name }}</li>
+          <li v-for="(Done,id) in Dones" :key="id">{{ Done.name }}</li>
       </draggable>
       <span class="tag">Want</span>
       <draggable class="dragarea" :options="{group:'ITEMS'}" v-model="wantDones" @change="updatewantDone">
-        <li v-for="wantDone in wantDones" :key="wantDone.id">{{ wantDone.name }}</li>
+        <li v-for="(wantDone,id) in wantDones" :key="id">{{ wantDone.name }}</li>
       </draggable>
     </ul>
   </div>
-    <button @click="addProject()">VuexORM!!</button>
   </div>
 </template>
 
@@ -83,6 +84,15 @@ export default{
     }
   },
   methods: {
+    Initialize:function(){
+      this.ToDos=[]
+      this.WorkInProgress=[]
+      this.Dones=[]
+      this.wantToDos=[]
+      this.wantWorkInProgress=[]
+      this.wantDones=[]
+      this.assigntask=[]
+    },
     addTask: function(){
       Task.insert({
         data: {
@@ -91,6 +101,53 @@ export default{
           'phase': 0,
         }
       })
+      this.Initialize
+      this.task = Task.all()
+      for(let i=0;i<this.task.length;i++){
+        if(this.task[i].phase == 0 && !this.task[i].want){
+          this.ToDos.push({
+            'id': this.task[i].id,
+            'project_id': this.task[i].project_id,
+            'name': this.task[i].name,
+            'want': this.task[i].want
+          })
+        }else if(this.task[i].phase == 0 && this.task[i].want){
+          this.wantToDos.push({
+            'id': this.task[i].id,
+            'project_id': this.task[i].project_id,
+            'name': this.task[i].name,
+            'want': this.task[i].want
+          })
+        }else if(this.task[i].phase == 1 && !this.task[i].want){
+          this.WorkInProgress.push({
+            'id': this.task[i].id,
+            'project_id': this.task[i].project_id,
+            'name': this.task[i].name,
+            'want': this.task[i].want
+          })
+        }else if(this.task[i].phase == 1 && this.task[i].want){
+          this.wantWorkInProgress.push({
+            'id': this.task[i].id,
+            'project_id': this.task[i].project_id,
+            'name': this.task[i].name,
+            'want': this.task[i].want
+          })
+        }else if(this.task[i].phase == 2 && !this.task[i].want){
+          this.Dones.push({
+            'id': this.task[i].id,
+            'project_id': this.task[i].project_id,
+            'name': this.task[i].name,
+            'want': this.task[i].want
+          })
+        }else if(this.task[i].phase == 2 && this.task[i].want){
+          this.wantDones.push({
+            'id': this.task[i].id,
+            'project_id': this.task[i].project_id,
+            'name': this.task[i].name,
+            'want': this.task[i].want
+          })
+        }
+      }
     },
     updateToDo:function(){
       console.log('update todo')
@@ -102,7 +159,6 @@ export default{
           }
         })
       }
-      console.log(Task.all())
     },
     updateWiP:function(){
       console.log('update WiP')
@@ -114,7 +170,6 @@ export default{
           }
         })
       }
-      console.log(Task.all())
     },
     updateDone:function(){
       console.log('update done')
@@ -126,7 +181,6 @@ export default{
           }
         })
       }
-      console.log(Task.all())
     },
     updatewantToDo:function(){
       console.log('update todo')
@@ -149,7 +203,6 @@ export default{
           }
         })
       }
-      console.log(Task.all())
     },
     updatewantDone:function(){
       console.log('update done')
@@ -161,42 +214,16 @@ export default{
           }
         })
       }
-      console.log(Task.all())
     }
   },
   created:function(){
-    //テスト用シーディング
-      const project = [
-      {
-        name: 'example project',
-        tasks: [{
-          project_id: 1,
-          name: 'MAGURO',
-          phase: 0,
-          want: false,
-        },
-        {
-          project_id: 1,
-          name: 'SAME',
-          phase: 1,
-          want:true
-        },
-        {
-          project_id: 1,
-          name: 'TAI',
-          phase: 2,
-          want: false
-        }]
-      }
-      ]
-      Project.insert({ data: project })
       console.log(Project.query().with('tasks').get())
       let result = Project.find(1)
       this.$set(this.project,'id',result.id)
       this.$set(this.project,'name',result.name)
       this.$set(this.project,'day',result.day)
+      
       this.task = Task.all()
-
       for(let i=0;i<this.task.length;i++){
         if(this.task[i].phase == 0 && !this.task[i].want){
           this.ToDos.push({

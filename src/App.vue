@@ -76,23 +76,11 @@ export default{
         'want': false
       }],
       assigntask: {
-        'id': null,
-        'project_id': null,
-        'name': '',
-        'phase': null
+        'name': ''
       }
     }
   },
   methods: {
-    Initialize:function(){
-      this.ToDos=[]
-      this.WorkInProgress=[]
-      this.Dones=[]
-      this.wantToDos=[]
-      this.wantWorkInProgress=[]
-      this.wantDones=[]
-      this.assigntask=[]
-    },
     addTask: function(){
       Task.insert({
         data: {
@@ -101,8 +89,13 @@ export default{
           'phase': 0,
         }
       })
-      this.Initialize
       this.task = Task.all()
+      this.ToDos = []
+      this.WorkInProgress = []
+      this.Dones = []
+      this.wantToDos = []
+      this.wantWorkInProgress = []
+      this.wantDones =[]
       for(let i=0;i<this.task.length;i++){
         if(this.task[i].phase == 0 && !this.task[i].want){
           this.ToDos.push({
@@ -222,53 +215,6 @@ export default{
       this.$set(this.project,'id',result.id)
       this.$set(this.project,'name',result.name)
       this.$set(this.project,'day',result.day)
-      
-      this.task = Task.all()
-      for(let i=0;i<this.task.length;i++){
-        if(this.task[i].phase == 0 && !this.task[i].want){
-          this.ToDos.push({
-            'id': this.task[i].id,
-            'project_id': this.task[i].project_id,
-            'name': this.task[i].name,
-            'want': this.task[i].want
-          })
-        }else if(this.task[i].phase == 0 && this.task[i].want){
-          this.wantToDos.push({
-            'id': this.task[i].id,
-            'project_id': this.task[i].project_id,
-            'name': this.task[i].name,
-            'want': this.task[i].want
-          })
-        }else if(this.task[i].phase == 1 && !this.task[i].want){
-          this.WorkInProgress.push({
-            'id': this.task[i].id,
-            'project_id': this.task[i].project_id,
-            'name': this.task[i].name,
-            'want': this.task[i].want
-          })
-        }else if(this.task[i].phase == 1 && this.task[i].want){
-          this.wantWorkInProgress.push({
-            'id': this.task[i].id,
-            'project_id': this.task[i].project_id,
-            'name': this.task[i].name,
-            'want': this.task[i].want
-          })
-        }else if(this.task[i].phase == 2 && !this.task[i].want){
-          this.Dones.push({
-            'id': this.task[i].id,
-            'project_id': this.task[i].project_id,
-            'name': this.task[i].name,
-            'want': this.task[i].want
-          })
-        }else if(this.task[i].phase == 2 && this.task[i].want){
-          this.wantDones.push({
-            'id': this.task[i].id,
-            'project_id': this.task[i].project_id,
-            'name': this.task[i].name,
-            'want': this.task[i].want
-          })
-        }
-      }
     }
   }
 

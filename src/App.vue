@@ -1,44 +1,44 @@
 <template>
-  <div id="app">
+  <div id="app2">
     <h2>{{ project.name }}</h2>
     <h3>{{ project.day }}</h3>
-    <input type="text" v-model="assigntask.name">
-    <button @click="addTask">タスク追加</button>
+    <p><el-input type="text" v-model="assigntask.name"></el-input>
+    <el-button @click="addTask">タスク追加</el-button></p>
     <div id="box1" class="box">
     <ul>
-      <span class="tag">To Do</span>
+      <span class="tag todo">To Do</span>
       <draggable class="dragarea" :options="{group:'ITEMS'}" v-model="ToDos" @change="updateToDo">
-        <li v-for="(ToDo,id) in ToDos" :key="id">{{ ToDo.name }}</li>
+        <el-tag type="danger" effect="dark" v-for="(ToDo,id) in ToDos" :key="id">{{ ToDo.name }}</el-tag>
       </draggable>
-      <span class="tag">Want</span>
+      <span class="tag todo">Want</span>
       <draggable class="dragarea" :options="{group:'ITEMS'}" v-model="wantToDos" @change="updatewantToDo">
-        <li v-for="(wantToDo,id) in wantToDos" :key="id">{{ wantToDo.name }}</li>
+        <el-tag type="danger" effect="dark" v-for="(wantToDo,id) in wantToDos" :key="id">{{ wantToDo.name }}</el-tag>
       </draggable>
     </ul>
   </div>
 
   <div id="box2" class="box">
     <ul>
-      <span class="tag">WorkInProgress</span>
+      <span class="tag wip">WorkInProgress</span>
       <draggable class="dragarea" :options="{group:'ITEMS'}" v-model="WorkInProgress" @change="updateWiP">
-        <li v-for="(WiP,id) in WorkInProgress" :key="id">{{ WiP.name }}</li>
+        <el-tag type="warning" effect="dark" v-for="(WiP,id) in WorkInProgress" :key="id">{{ WiP.name }}</el-tag>
        </draggable>
-       <span class="tag">Want</span>
+       <span class="tag wip">Want</span>
       <draggable class="dragarea" :options="{group:'ITEMS'}" v-model="wantWorkInProgress" @change="updatewantWiP">
-        <li v-for="(wantWiP,id) in wantWorkInProgress" :key="id">{{ wantWiP.name }}</li>
+        <el-tag type="warning" effect="dark" v-for="(wantWiP,id) in wantWorkInProgress" :key="id">{{ wantWiP.name }}</el-tag>
       </draggable>
     </ul>
   </div>
 
   <div id="box3" class="box">
     <ul>
-      <span class="tag">Done</span>
+      <span class="tag done">Done</span>
       <draggable class="dragarea" :options="{group:'ITEMS'}" v-model="Dones" @change="updateDone">
-          <li v-for="(Done,id) in Dones" :key="id">{{ Done.name }}</li>
+          <el-tag type="success" effect="dark" v-for="(Done,id) in Dones" :key="id">{{ Done.name }}</el-tag>
       </draggable>
-      <span class="tag">Want</span>
+      <span class="tag done">Want</span>
       <draggable class="dragarea" :options="{group:'ITEMS'}" v-model="wantDones" @change="updatewantDone">
-        <li v-for="(wantDone,id) in wantDones" :key="id">{{ wantDone.name }}</li>
+        <el-tag type="success" effect="dark" v-for="(wantDone,id) in wantDones" :key="id">{{ wantDone.name }}</el-tag>
       </draggable>
     </ul>
   </div>
@@ -221,12 +221,22 @@ export default{
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Russo+One&display=swap');
 .el-input__inner{
     width:40%;
 }
 
+.el-tag{
+  width:75%;
+  font-weight:bold;
+}
+
+.el-tag .el-tag__inner{
+  font-size: 30px;
+}
+
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Russo One','Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -254,10 +264,10 @@ export default{
   background-color: #fdd;
 }
 #box2 {
-  background-color: #ddf;
+  background-color: #FFC7AF;
 }
 #box3 {
-  background-color: #fdd;
+  background-color: #AEFFBD;
 }
 
 .tag{

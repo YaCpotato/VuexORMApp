@@ -1,7 +1,7 @@
 <template>
 <div id="app">
     <h1>SOKUSEKI!!</h1>
-    <img alt="salmon logo" src="./assets/sushi_salmon.png">
+    <img alt="salmon logo" src="./assets/food_cup_ramen_syouyu.png">
     <el-input type="text" v-model="projectName"></el-input>
     <div id="nav">
       <router-link to="/App" class="link">Let's start project!!</router-link>

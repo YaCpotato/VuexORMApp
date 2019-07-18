@@ -4,6 +4,7 @@
     <h3>{{ project.day }}</h3>
     <p><el-input type="text" v-model="assigntask.name"></el-input>
     <el-button @click="addTask">タスク追加</el-button></p>
+    
     <div id="box1" class="box">
     <ul>
       <span class="tag todo">To Do</span>
@@ -261,7 +262,7 @@ export default{
   padding: 20px 0;
 }
 #box1 {
-  background-color: #fdd;
+  border:red 5px;
 }
 #box2 {
   background-color: #FFC7AF;

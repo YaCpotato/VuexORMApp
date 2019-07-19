@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import VuexORM from '@vuex-orm/core'
 import Project from './model/Project'
 import Task from './model/Task'
+import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 
@@ -12,7 +13,8 @@ database.register(Project)
 database.register(Task)
 
 const store = new Vuex.Store({
-  plugins: [VuexORM.install(database)]
+  plugins: [VuexORM.install(database),
+            createPersistedState({ storage: window.sessionStorage })]
 })
 
 export default store

@@ -2,6 +2,9 @@
   <div id="app2">
     <h2>{{ project.name }}</h2>
     <h3>{{ project.day }}</h3>
+
+    <li v-for="(Project,id) in Projects" :key="id">{{ Project.id }}</li>
+
     <p><el-input type="text" v-model="assigntask.name"></el-input>
     <el-button @click="addTask">タスク追加</el-button></p>
     
@@ -216,6 +219,11 @@ export default{
       this.$set(this.project,'id',result.id)
       this.$set(this.project,'name',result.name)
       this.$set(this.project,'day',result.day)
+    },
+    computed:{
+      Projects:function(){
+        return Project.all()
+      }
     }
   }
 

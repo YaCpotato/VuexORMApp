@@ -54,6 +54,7 @@ import Vue from 'vue'
 import './store'
 import Project from './model/Project'
 import Task from './model/Task'
+import Current from './model/Current'
 import draggable from 'vuedraggable'
 import VModal from 'vue-js-modal'
 Vue.use(VModal)
@@ -217,11 +218,12 @@ export default{
     }
   },
   created:function(){
-      console.log(Project.query().with('tasks').get())
-      let result = Project.find(1)
-      this.$set(this.project,'id',result.id)
-      this.$set(this.project,'name',result.name)
-      this.$set(this.project,'day',result.day)
+      let result = Current.all()
+      console.log(result)
+      this.$set(this.project,'id',result[0].id)
+      this.$set(this.project,'name',result[0].name)
+      this.$set(this.project,'day',result[0].day)
+      console.log(this.project)
     },
     computed:{
       Projects:function(){

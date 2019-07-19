@@ -37,6 +37,7 @@
 import Vue from 'vue'
 import Project from './model/Project'
 import VModal from 'vue-js-modal'
+import Current from './model/Current'
 Vue.use(VModal)
     export default{
         data(){
@@ -60,7 +61,17 @@ Vue.use(VModal)
                         name: this.projectName
                     }
                 })
-                console.log(Project.all())
+                let result = Project.query().where('name',this.projectName).get()
+                console.log(result)
+                Current.deleteAll()
+                Current.insert({
+                    data:{
+                        id:result[0].id,
+                        name:result[0].name,
+                        day:result[0].day
+                    }
+                })
+                console.log(Current.all())
             },
             show : function() {
                 this.$modal.show('OpenProject');

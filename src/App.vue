@@ -97,7 +97,7 @@ export default{
           'phase': 0,
         }
       })
-      this.task = Task.all()
+      this.task = Task.query().where('project_id',this.project.id).get()
       this.ToDos = []
       this.WorkInProgress = []
       this.Dones = []
@@ -219,11 +219,10 @@ export default{
   },
   created:function(){
       let result = Current.all()
-      console.log(result)
       this.$set(this.project,'id',result[0].id)
       this.$set(this.project,'name',result[0].name)
       this.$set(this.project,'day',result[0].day)
-      console.log(this.project)
+      this.task = Task.query().where('project_id',this.project.id).get()
     },
     computed:{
       Projects:function(){

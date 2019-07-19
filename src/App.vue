@@ -50,10 +50,13 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import './store'
 import Project from './model/Project'
 import Task from './model/Task'
 import draggable from 'vuedraggable'
+import VModal from 'vue-js-modal'
+Vue.use(VModal)
 
 export default{
   components: {

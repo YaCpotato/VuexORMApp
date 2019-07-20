@@ -10,12 +10,13 @@
             :draggable="true">
         <p>Open your Project</p>
         <li v-for="(Project,id) in Projects" :key="id">
-            <el-button type="success" v-on:click="OpenProject(Project.id)"></el-button>
+            <router-link to="/App" class="link" @click.native="OpenProject(Project.id)">Let's start project!!</router-link>
             <span>{{ Project.name }}</span>
             <span>{{ Project.day }}</span>
         </li>
         <el-button type="success" v-on:click="hide">hide</el-button>  
     </modal>
+    <el-button @click="reset">Reset</el-button>
     <el-input type="text" v-model="projectName"></el-input>
     <div id="nav">
       <router-link to="/App" class="link">Let's start project!!</router-link>
@@ -26,6 +27,7 @@
 <script>
 import Vue from 'vue'
 import Project from './model/Project'
+import Task from './model/Task'
 import VModal from 'vue-js-modal'
 import Current from './model/Current'
 Vue.use(VModal)
@@ -45,6 +47,11 @@ Vue.use(VModal)
             }
         },
         methods:{
+            reset:function(){
+                Project.deleteAll()
+                Task.deleteAll()
+                Current.deleteAll()
+            },
             startProject:function(){
                 Project.insert({
                     data:{
@@ -61,11 +68,14 @@ Vue.use(VModal)
                         day:result[0].day
                     }
                 })
+                console.log('Current')
                 console.log(Current.all())
             },
             OpenProject:function(id){
+                console.log(id)
                 Current.deleteAll()
                 let result = Project.find(id)
+                console.log(result)
                 Current.insert({
                     data:{
                         id:result.id,
@@ -73,7 +83,6 @@ Vue.use(VModal)
                         day:result.day
                     }
                 })
-                console.log(Current.all())
             },
             show : function() {
                 this.$modal.show('OpenProject');

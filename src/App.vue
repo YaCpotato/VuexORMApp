@@ -1,10 +1,8 @@
 <template>
   <div id="app2">
     <h2>{{ project.name }}</h2>
+    <h3>{{ project.id }}</h3>
     <h3>{{ project.day }}</h3>
-
-    <li v-for="(Project,id) in Projects" :key="id">{{ Project.id }}</li>
-
     <p><el-input type="text" v-model="assigntask.name"></el-input>
     <el-button @click="addTask">タスク追加</el-button></p>
     
@@ -52,7 +50,6 @@
 <script>
 import Vue from 'vue'
 import './store'
-import Project from './model/Project'
 import Task from './model/Task'
 import Current from './model/Current'
 import draggable from 'vuedraggable'
@@ -89,15 +86,9 @@ export default{
     }
   },
   methods: {
-    addTask: function(){
-      Task.insert({
-        data: {
-          'project_id': this.project.id,
-          'name': this.assigntask.name,
-          'phase': 0,
-        }
-      })
+    Initialize:function(){
       this.task = Task.query().where('project_id',this.project.id).get()
+      console.log(this.task)
       this.ToDos = []
       this.WorkInProgress = []
       this.Dones = []
@@ -149,6 +140,16 @@ export default{
           })
         }
       }
+    },
+    addTask: function(){
+      Task.insert({
+        data: {
+          'project_id': this.project.id,
+          'name': this.assigntask.name,
+          'phase': 0,
+        }
+      })
+      this.Initialize()
     },
     updateToDo:function(){
       console.log('update todo')
@@ -219,15 +220,11 @@ export default{
   },
   created:function(){
       let result = Current.all()
-      this.$set(this.project,'id',result[0].id)
+      console.log(result)
+      this.$set(this.project,'id',result[0].id -1)
       this.$set(this.project,'name',result[0].name)
       this.$set(this.project,'day',result[0].day)
-      this.task = Task.query().where('project_id',this.project.id).get()
-    },
-    computed:{
-      Projects:function(){
-        return Project.all()
-      }
+      this.Initialize()
     }
   }
 

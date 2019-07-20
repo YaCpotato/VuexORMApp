@@ -9,21 +9,11 @@
             :resizable="true"
             :draggable="true">
         <p>Open your Project</p>
-        <el-table
-            :data="Projects"
-            stripe
-            style="width: 100%">
-            <el-table-column
-            prop="day"
-            label="Day"
-            width="180">
-            </el-table-column>
-            <el-table-column
-            prop="name"
-            label="Name"
-            width="180">
-            </el-table-column>
-        </el-table>
+        <li v-for="(Project,id) in Projects" :key="id">
+            <el-button type="success" v-on:click="OpenProject(Project.id)"></el-button>
+            <span>{{ Project.name }}</span>
+            <span>{{ Project.day }}</span>
+        </li>
         <el-button type="success" v-on:click="hide">hide</el-button>  
     </modal>
     <el-input type="text" v-model="projectName"></el-input>
@@ -69,6 +59,18 @@ Vue.use(VModal)
                         id:result[0].id,
                         name:result[0].name,
                         day:result[0].day
+                    }
+                })
+                console.log(Current.all())
+            },
+            OpenProject:function(id){
+                Current.deleteAll()
+                let result = Project.find(id)
+                Current.insert({
+                    data:{
+                        id:result.id,
+                        name:result.name,
+                        day:result.day
                     }
                 })
                 console.log(Current.all())

@@ -17,5 +17,10 @@ export default new Router({
       name: 'App',
       component: App
     },
+    {
+      path: '/Open',
+      name: 'App',
+      component: App
+    },
   ]
 })

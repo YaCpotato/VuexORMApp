@@ -10,7 +10,7 @@
             :draggable="true">
         <p>Open your Project</p>
         <li v-for="(Project,id) in Projects" :key="id">
-            <router-link to="/App" class="link" @click.native="OpenProject(Project.id)">Let's start project!!</router-link>
+            <router-link to="/Open" class="link" @click.native="OpenProject(Project.id)">Let's start project!!</router-link>
             <span>{{ Project.name }}</span>
             <span>{{ Project.day }}</span>
         </li>
@@ -41,7 +41,8 @@ Vue.use(VModal)
         },
         watch: {
             '$route': function (to, from) {
-            if (to.path !== from.path) {
+                console.log(to.path)
+            if (to.path !== from.path && to.path == '/App') {
                 this.startProject()
             }
             }

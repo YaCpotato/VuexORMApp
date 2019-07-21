@@ -221,7 +221,7 @@ export default{
   created:function(){
       let result = Current.all()
       console.log(result)
-      this.$set(this.project,'id',result[0].id -1)
+      this.$set(this.project,'id',result[0].id)
       this.$set(this.project,'name',result[0].name)
       this.$set(this.project,'day',result[0].day)
       this.Initialize()

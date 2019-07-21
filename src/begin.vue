@@ -41,10 +41,9 @@ Vue.use(VModal)
         },
         watch: {
             '$route': function (to, from) {
-                console.log(to.path)
-            if (to.path !== from.path && to.path == '/App') {
-                this.startProject()
-            }
+                if (to.path !== from.path && to.path == '/App') {
+                    this.startProject()
+                }
             }
         },
         methods:{
@@ -60,7 +59,6 @@ Vue.use(VModal)
                     }
                 })
                 let result = Project.query().where('name',this.projectName).get()
-                console.log(result)
                 Current.deleteAll()
                 Current.insert({
                     data:{
@@ -69,14 +67,10 @@ Vue.use(VModal)
                         day:result[0].day
                     }
                 })
-                console.log('Current')
-                console.log(Current.all())
             },
             OpenProject:function(id){
-                console.log(id)
                 Current.deleteAll()
                 let result = Project.find(id)
-                console.log(result)
                 Current.insert({
                     data:{
                         id:result.id,

@@ -88,7 +88,6 @@ export default{
   methods: {
     Initialize:function(){
       this.task = Task.query().where('project_id',this.project.id).get()
-      console.log(this.task)
       this.ToDos = []
       this.WorkInProgress = []
       this.Dones = []
@@ -152,7 +151,6 @@ export default{
       this.Initialize()
     },
     updateToDo:function(){
-      console.log('update todo')
       for(let i=0;i<this.ToDos.length;i++){
         Task.update({
           data:{
@@ -163,7 +161,6 @@ export default{
       }
     },
     updateWiP:function(){
-      console.log('update WiP')
       for(let i=0;i<this.WorkInProgress.length;i++){
         Task.update({
           data:{
@@ -174,7 +171,6 @@ export default{
       }
     },
     updateDone:function(){
-      console.log('update done')
       for(let i=0;i<this.Dones.length;i++){
         Task.update({
           data:{
@@ -185,7 +181,6 @@ export default{
       }
     },
     updatewantToDo:function(){
-      console.log('update todo')
       for(let i=0;i<this.wantToDos.length;i++){
         Task.update({
           data:{
@@ -196,7 +191,6 @@ export default{
       }
     },
     updatewantWiP:function(){
-      console.log('update WiP')
       for(let i=0;i<this.wantWorkInProgress.length;i++){
         Task.update({
           data:{
@@ -207,7 +201,6 @@ export default{
       }
     },
     updatewantDone:function(){
-      console.log('update done')
       for(let i=0;i<this.wantDones.length;i++){
         Task.update({
           data:{
@@ -220,7 +213,6 @@ export default{
   },
   created:function(){
       let result = Current.all()
-      console.log(result)
       this.$set(this.project,'id',result[0].id)
       this.$set(this.project,'name',result[0].name)
       this.$set(this.project,'day',result[0].day)

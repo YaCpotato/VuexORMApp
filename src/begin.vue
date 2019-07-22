@@ -4,8 +4,8 @@
     <img alt="salmon logo" src="./assets/food_cup_ramen_syouyu.png">
     <el-button type="primary" v-on:click="show">show!</el-button>
     <modal name="OpenProject"
-            width="500px"
-            height="400px"
+            width="700px"
+            height="500px"
             :resizable="true"
             :draggable="true">
         <p>Open your Project</p>

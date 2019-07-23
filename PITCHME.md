@@ -1,3 +1,7 @@
+---?color=#040000
+
+# @fa[laptop-code fa-3x text-white]
+
 ## This is the sample slide used gitpitch
 
 ---

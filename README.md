@@ -16,12 +16,9 @@ npm install vuex-orm@core
 
 ## Vuex-ORMの設定
 1. srcフォルダの下にmodelフォルダを作成する
-```
-mkdir ./src/model
-```
   
 2.任意のモデルを作成する（modelフォルダ下参照） 
-  
+ここで作成するモデルはORM的アクセスをしたいオブジェクト
 3. srcフォルダのstore.js
 作成したモデルを登録する行が必要
 サンプルーこのリポジトリ内のstore.js
